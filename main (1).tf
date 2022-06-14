@@ -13,6 +13,6 @@ resource "aws_s3_bucket" "s3bucketsentnidhi" {
 }
 resource "aws_s3_bucket_public_access_block" "s3bucketsentnidhi" {
   bucket = aws_s3_bucket.s3bucketsentnidhi.id
-  block_public_acls   = false
+  block_public_acls   = true
 
 }
