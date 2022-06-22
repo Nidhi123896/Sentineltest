@@ -48,8 +48,8 @@ EOF
 }
 
 resource "aws_kms_alias" "my_kms_alias" {
-  target_key_id = aws_kms_key.my_kms_key.key_id
-  name          = "my-key-name"
+  target_key_id = aws_kms_key.my_kms_alias.key_id
+  name          = "alias/my-key-alias"
 }
 
 output "key_id" {
