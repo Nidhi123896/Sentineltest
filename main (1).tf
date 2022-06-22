@@ -49,7 +49,7 @@ EOF
 
 resource "aws_kms_alias" "my_kms_alias" {
   target_key_id = aws_kms_key.my_kms_key.key_id
-  name          = "alias/${var.kms_alias}"
+  name          = "my-key-name"
 }
 
 output "key_id" {
