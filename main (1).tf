@@ -7,7 +7,7 @@ resource "aws_kms_key" "my_kms_key" {
   description         = "My KMS Keys for Data Encryption"
   customer_master_key_spec = "SYMMETRIC_DEFAULT"
   is_enabled               = true
-  #enable_key_rotation      = var.rotation_enabled  
+  enable_key_rotation      =true  
 
   tags = {
     Name = "my_kms_key"
@@ -26,31 +26,7 @@ resource "aws_kms_key" "my_kms_key" {
             },
             "Action": "kms:*",
             "Resource": "*"
-        },
-        {
-            "Sid": "Allow access for Key Administrators",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
-            },
-            "Action": [
-                "kms:Create*",
-                "kms:Describe*",
-                "kms:Enable*",
-                "kms:List*",
-                "kms:Put*",
-                "kms:Update*",
-                "kms:Revoke*",
-                "kms:Disable*",
-                "kms:Get*",
-                "kms:Delete*",
-                "kms:TagResource",
-                "kms:UntagResource",
-                "kms:ScheduleKeyDeletion",
-                "kms:CancelKeyDeletion"
-            ],
-            "Resource": "*"
-        },
+        }
         {
             "Sid": "Allow use of the key",
             "Effect": "Allow",
@@ -65,24 +41,6 @@ resource "aws_kms_key" "my_kms_key" {
                 "kms:DescribeKey"
             ],
             "Resource": "*"
-        },
-        {
-            "Sid": "Allow attachment of persistent resources",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
-            },
-            "Action": [
-                "kms:CreateGrant",
-                "kms:ListGrants",
-                "kms:RevokeGrant"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "Bool": {
-                    "kms:GrantIsForAWSResource": "true"
-                }
-            }
         }
     ]
 }
@@ -91,7 +49,7 @@ EOF
 
 resource "aws_kms_alias" "my_kms_alias" {
   target_key_id = aws_kms_key.my_kms_key.key_id
-  #name          = "alias/${var.kms_alias}"
+  name          = "alias/${var.kms_alias}"
 }
 
 output "key_id" {
