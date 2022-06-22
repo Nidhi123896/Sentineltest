@@ -4,7 +4,7 @@ terraform {
     organization = "Nidhicompany"
 
     workspaces {
-      name = "s3bucketone"
+      name = "cmktest"
     }
   }
 
