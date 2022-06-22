@@ -1,86 +1,86 @@
-provider aws {
-  region     = us-east-1
-  
+# Configure the AWS Provider
+provider "aws" {
+  region     = "us-east-1"
 }
 
-resource aws_kms_key my_kms_key {
-  description         = My KMS Keys for Data Encryption
-  customer_master_key_spec = SYMMETRIC_DEFAULT
+resource "aws_kms_key" "my_kms_key" {
+  description         = "My KMS Keys for Data Encryption"
+  customer_master_key_spec = "SYMMETRIC_DEFAULT"
   is_enabled               = true
   #enable_key_rotation      = var.rotation_enabled  
 
   tags = {
-    Name = my_kms_key
+    Name = "my_kms_key"
   }
 
-  policy = EOF
+  policy = <<EOF
 {
-    Id key-consolepolicy-3,
-    Version 2012-10-17,
-    Statement [
+    "Id": "key-consolepolicy-3",
+    "Version": "2012-10-17",
+    "Statement": [
         {
-            Sid Enable IAM User Permissions,
-            Effect Allow,
-            Principal {
-                AWS arnawsiam390132021439userchandraaws539
+            "Sid": "Enable IAM User Permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
             },
-            Action kms,
-            Resource 
+            "Action": "kms:*",
+            "Resource": "*"
         },
         {
-            Sid Allow access for Key Administrators,
-            Effect Allow,
-            Principal {
-                AWS arnawsiam390132021439userchandraaws539
+            "Sid": "Allow access for Key Administrators",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
             },
-            Action [
-                kmsCreate,
-                kmsDescribe,
-                kmsEnable,
-                kmsList,
-                kmsPut,
-                kmsUpdate,
-                kmsRevoke,
-                kmsDisable,
-                kmsGet,
-                kmsDelete,
-                kmsTagResource,
-                kmsUntagResource,
-                kmsScheduleKeyDeletion,
-                kmsCancelKeyDeletion
+            "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion"
             ],
-            Resource 
+            "Resource": "*"
         },
         {
-            Sid Allow use of the key,
-            Effect Allow,
-            Principal {
-                AWS arnawsiam390132021439userchandraaws539
+            "Sid": "Allow use of the key",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
             },
-            Action [
-                kmsEncrypt,
-                kmsDecrypt,
-                kmsReEncrypt,
-                kmsGenerateDataKey,
-                kmsDescribeKey
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
             ],
-            Resource 
+            "Resource": "*"
         },
         {
-            Sid Allow attachment of persistent resources,
-            Effect Allow,
-            Principal {
-                AWS arnawsiam390132021439userchandraaws539
+            "Sid": "Allow attachment of persistent resources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
             },
-            Action [
-                kmsCreateGrant,
-                kmsListGrants,
-                kmsRevokeGrant
+            "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant"
             ],
-            Resource ,
-            Condition {
-                Bool {
-                    kmsGrantIsForAWSResource true
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "kms:GrantIsForAWSResource": "true"
                 }
             }
         }
@@ -89,11 +89,11 @@ resource aws_kms_key my_kms_key {
 EOF
 }
 
-resource aws_kms_alias my_kms_alias {
+resource "aws_kms_alias" "my_kms_alias" {
   target_key_id = aws_kms_key.my_kms_key.key_id
-  #name          = alias${var.kms_alias}
+  #name          = "alias/${var.kms_alias}"
 }
 
-output key_id {
+output "key_id" {
   value = aws_kms_key.my_kms_key.key_id
-}}
+}
