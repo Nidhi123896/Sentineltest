@@ -26,21 +26,6 @@ resource "aws_kms_key" "my_kms_key" {
             },
             "Action": "kms:*",
             "Resource": "*"
-        },
-        {
-            "Sid": "Allow use of the key",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
-            },
-            "Action": [
-                "kms:Encrypt",
-                "kms:Decrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-                "kms:DescribeKey"
-            ],
-            "Resource": "*"
         }
     ]
 }
