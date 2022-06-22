@@ -26,7 +26,7 @@ resource "aws_kms_key" "my_kms_key" {
             },
             "Action": "kms:*",
             "Resource": "*"
-        }
+        },
         {
             "Sid": "Allow use of the key",
             "Effect": "Allow",
