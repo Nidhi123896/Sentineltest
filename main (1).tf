@@ -3,8 +3,7 @@ provider "aws" {
   region     = "us-west-2"
 }
 
-resource "aws_instance" "inst" {
-  ami               = "ami-0d08ef957f0e4722b"
-  instance_type     = "t2.micro"
+resource "aws_instance" "ec2testtf" {
+    ami = "ami-0ca285d4c2cda3300"
+    instance_type = "t2.micro"
 }
-
