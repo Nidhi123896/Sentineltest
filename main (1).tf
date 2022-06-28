@@ -8,7 +8,7 @@ resource "aws_instance" "ec2" {
   instance_type     = "t2.micro"
 }
 resource "aws_ebs_volume" "data-vol" {
-
+ availability_zone = "us-east-1"
  size = 1
 
 
