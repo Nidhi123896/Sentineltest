@@ -1,14 +1,14 @@
 # Configure the AWS Provider
 provider "aws" {
-  region     = "us-east-1"
+  region     = "us-west-2"
 }
 
 resource "aws_instance" "inst" {
-  ami               = "ami-0cff7528ff583bf9a"
+  ami               = "ami-0d08ef957f0e4722b"
   instance_type     = "t2.micro"
 }
 resource "aws_ebs_volume" "data-vol" {
- availability_zone = "us-east-1a"
+ availability_zone = "us-west-2a"
  size = 1
 
 
