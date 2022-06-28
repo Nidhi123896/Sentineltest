@@ -12,6 +12,7 @@ resource "aws_ebs_volume" "data-vol" {
  size = 1
 }
 resource "aws_volume_attachment" "vol" {
+ availability_zone = "us-west-2a"
  device_name = "/dev/sdc"
  volume_id = aws_ebs_volume.data-vol.id
  instance_id = aws_instance.ec2testtf.id
