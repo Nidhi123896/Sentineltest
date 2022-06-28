@@ -14,7 +14,9 @@ resource "aws_instance" "ec2test" {
 }
 resource "aws_kms_key" "ebs_encryption" {
     enable_key_rotation = true
+  
  }
+
 
 resource "aws_ebs_volume" "data-vol" {
  availability_zone = "us-west-2a"
@@ -32,7 +34,7 @@ resource "aws_volume_attachment" "vol" {
 }
 resource "aws_ebs_snapshot" "example_snapshot" {
   volume_id = aws_ebs_volume.data-vol.id
-  encrypted= true
+  encrypted= 0
   kms_key_id = aws_kms_key.ebs_encryption.arn
 
   tags = {
