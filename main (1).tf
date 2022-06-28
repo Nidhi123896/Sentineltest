@@ -14,7 +14,7 @@ resource "aws_ebs_volume" "data-vol" {
 resource "aws_volume_attachment" "vol" {
  device_name = "/dev/sdc"
  volume_id = aws_ebs_volume.data-vol.id
- instance_id = aws_instance.inst.id
+ instance_id = aws_instance.ec2testtf.id
 }
 resource "aws_ebs_snapshot" "example_snapshot" {
   volume_id = aws_ebs_volume.data-vol.id
