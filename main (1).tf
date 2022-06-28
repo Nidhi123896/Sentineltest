@@ -3,7 +3,7 @@ provider "aws" {
   region     = "us-east-1"
 }
 
-resource "aws_instance" "ec2" {
+resource "aws_instance" "inst" {
   ami               = "ami-0cff7528ff583bf9a"
   instance_type     = "t2.micro"
 }
@@ -17,7 +17,7 @@ resource "aws_ebs_volume" "data-vol" {
 resource "aws_volume_attachment" "vol" {
  device_name = "/dev/sdc"
  volume_id = aws_ebs_volume.data-vol.id
- instance_id = aws_instance.ec2.id
+ instance_id = aws_instance.inst.id
 }
 resource "aws_ebs_snapshot" "example_snapshot" {
   volume_id = aws_ebs_volume.data-vol.id
