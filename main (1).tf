@@ -3,40 +3,24 @@ provider "aws" {
   region     = "us-east-1"
 }
 
-resource "aws_kms_key" "my_kms_key" {
-  description         = "My KMS Keys for Data Encryption"
-  customer_master_key_spec = "SYMMETRIC_DEFAULT"
-  is_enabled               = true
-  enable_key_rotation      =true  
-
-  tags = {
-    Name = "my_kms_key"
-  }
-
-  policy = <<EOF
-{
-    "Id": "key-consolepolicy-3",
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Enable IAM User Permissions",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::390132021439:user/chandraaws539"
-            },
-            "Action": "kms:*",
-            "Resource": "*"
-        }
-    ]
+resource "aws_instance" "ec2" {
+  ami               = "ami-5b673c34"
+  instance_type     = "t2.micro"
 }
-EOF
+resource "aws_ebs_volume" "data-vol" {
+
+ size = 1
+
+
 }
 
-resource "aws_kms_alias" "my_kms_alias" {
-  target_key_id = aws_kms_key.my_kms_key.key_id
-  name          = "alias/my-key-alias"
+resource "aws_volume_attachment" "vol" {
+ device_name = "/dev/sdc"
+ volume_id = aws_ebs_volume.data-vol.id
+ instance_id = aws_instance.ec2.id
 }
+resource "aws_ebs_snapshot" "example_snapshot" {
+  volume_id = aws_ebs_volume.data-vol.id
 
-output "key_id" {
-  value = aws_kms_key.my_kms_key.key_id
+  
 }
