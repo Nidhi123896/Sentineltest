@@ -17,9 +17,7 @@ resource "aws_kms_key" "ebs_encryption" {
     enable_key_rotation = true
   
  }
-resource "aws_ebs_default_kms_key" "example" {
-  key_arn = aws_kms_key.ebs_encryption.arn
-}
+
 
 resource "aws_ebs_volume" "data-vol" {
  availability_zone = "us-west-2a"
