@@ -14,15 +14,15 @@ resource "aws_instance" "ec2test" {
   }
 }
 
-data "aws_kms_key" "enc_key" {
-  key_id = "069e1434-08d8-4585-a9a1-11947d60d1a8"
-}
+/*data "aws_kms_key" "enc_key" {
+ # key_id = "069e1434-08d8-4585-a9a1-11947d60d1a8"
+}*/
 
 resource "aws_ebs_volume" "data-vol" {
  availability_zone = "us-east-1a"
  size = 1
- encrypted = true
- kms_key_id =data.aws_kms_key.enc_key.arn
+ #encrypted = true
+# kms_key_id =data.aws_kms_key.enc_key.arn
  tags = {
     Name = "Encryption check for volume"
   }
