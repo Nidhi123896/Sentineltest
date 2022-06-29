@@ -6,7 +6,7 @@ provider "aws" {
 
 resource "aws_instance" "ec2test" {
    
-    ami = "ami-0ca285d4c2cda3300"
+    ami = "ami-0cff7528ff583bf9a"
     availability_zone = "us-east-1a"
     instance_type = "t2.micro"
     tags = {
