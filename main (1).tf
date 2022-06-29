@@ -13,19 +13,16 @@ resource "aws_instance" "ec2test" {
     Name = "instance1"
   }
 }
-resource "aws_kms_key" "ebs_encryption" {
-    enable_key_rotation = true
-  
- }
-resource "aws_ebs_default_kms_key" "example" {
-  key_arn = aws_kms_key.ebs_encryption.arn
+
+data "aws_kms_key" "enc_key" {
+  key_id = "069e1434-08d8-4585-a9a1-11947d60d1a8"
 }
 
 resource "aws_ebs_volume" "data-vol" {
  availability_zone = "us-west-2a"
  size = 1
  encrypted = true
- kms_key_id =aws_kms_key.ebs_encryption.arn
+ kms_key_id =aws_kms_key.enc_key.key_id
  tags = {
     Name = "Encryption check for volume"
   }
