@@ -22,7 +22,7 @@ resource "aws_ebs_volume" "data-vol" {
  availability_zone = "us-east-1a"
  size = 1
  encrypted = true
- #kms_key_id =data.aws_kms_key.enc_key.arn
+ kms_key_id =data.aws_kms_key.enc_key.arn
  tags = {
     Name = "Encryption check for volume"
   }
