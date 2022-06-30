@@ -10,7 +10,7 @@ resource "aws_instance" "ec2test" {
     availability_zone = "us-east-1a"
     instance_type = "t2.micro"
     tags = {
-    Name = "instance1"
+    Name = "instance2"
   }
 }
 
