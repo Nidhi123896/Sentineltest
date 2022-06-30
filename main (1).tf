@@ -14,8 +14,19 @@ resource "aws_instance" "ec2test" {
   }
 }
 
+resource "aws_kms_key" "my_kms_key" {
+  description         = "My KMS Keys for Data Encryption"
+  customer_master_key_spec = "SYMMETRIC_DEFAULT"
+  is_enabled               = true
+  enable_key_rotation      = true
+  tags = {
+    Name = "my_kms_key"
+  }
+
+
+
 data "aws_kms_key" "enc_key" {
- key_id = "069e1434-08d8-4585-a9a1-11947d60d1a8"
+ key_id = aws_kms_key.my_kms_key.id
 }
 
 resource "aws_ebs_volume" "data-vol" {
