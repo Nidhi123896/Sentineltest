@@ -23,7 +23,7 @@ resource "aws_kms_key" "my_kms_key" {
     Name = "my_kms_key"
   }
 
-
+}
 
 data "aws_kms_key" "enc_key" {
  key_id = aws_kms_key.my_kms_key.id
