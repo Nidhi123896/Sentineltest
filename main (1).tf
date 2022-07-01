@@ -61,7 +61,7 @@ resource "aws_cloudwatch_log_group" "nidhi" {
 
   tags = {
     Environment = "production"
-    Application = "serviceA"
+    Application = "service"
   }
 }
 variable "cluster_name" {
