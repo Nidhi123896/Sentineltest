@@ -40,6 +40,15 @@ resource "aws_subnet" "main" {
     Name = "Main"
   }
 }
+resource "aws_subnet" "main1" {
+  vpc_id     = aws_vpc.mainvpc.id
+  cidr_block = "10.1.2.0/24"
+ 
+  tags = {
+    Name = "Main"
+  }
+}
+
 
 
 resource "aws_cloudwatch_log_group" "nidhi" {
@@ -59,7 +68,7 @@ resource "aws_eks_cluster" "example" {
   role_arn = aws_iam_role.example.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.main.id]
+    subnet_ids = [aws_subnet.main.id,aws_subnet.main1.id]
   }
   
   depends_on = [
