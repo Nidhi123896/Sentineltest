@@ -21,9 +21,11 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.example.name
 }
-
+data "aws_regions" "current" {
+  all_regions = true
+}
 resource "aws_vpc" "mainvpc" {
-  region="east-us-1"
+  
   cidr_block = "10.1.0.0/16"
 }
 resource "aws_subnet" "main" {
