@@ -2,7 +2,9 @@ provider "aws" {
   region = "us-east-1"
 }
 
-
+data "aws_availability_zones" "available" {
+  state = "available"
+}
 
 resource "aws_iam_role" "example" {
   name = "eks-cluster-example"
@@ -35,17 +37,20 @@ resource "aws_vpc" "mainvpc" {
 resource "aws_subnet" "main" {
   vpc_id     = aws_vpc.mainvpc.id
   cidr_block = "10.1.1.0/24"
+  
+  availability_zone = data.aws_availability_zones.available.names[0]
  
   tags = {
-    Name = "Main"
+    Name = "subnet1"
   }
 }
 resource "aws_subnet" "main1" {
   vpc_id     = aws_vpc.mainvpc.id
   cidr_block = "10.1.2.0/24"
  
+  availability_zone = data.aws_availability_zones.available.names[1]
   tags = {
-    Name = "Main"
+    Name = "subnet2"
   }
 }
 
