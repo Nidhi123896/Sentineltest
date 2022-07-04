@@ -82,7 +82,7 @@ resource "aws_eks_cluster" "example" {
   ]
 
 
-  enabled_cluster_log_types = ["api", "audit","authenticator","controllerManager","scheduler"]
+  #enabled_cluster_log_types = ["api", "audit","authenticator","controllerManager","scheduler"]
   name                      = var.cluster_name
 
   
