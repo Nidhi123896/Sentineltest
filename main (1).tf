@@ -27,21 +27,7 @@ resource "aws_security_group" "allow_tls" {
     self            = true
     cidr_blocks      = [aws_vpc.mainvpc.cidr_block]
    }
-    
-   
-  
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-   
-  }
-
-
-
-
-  tags = {
+    tags = {
     Name = "allowtls"
   }
 }
