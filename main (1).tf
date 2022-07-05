@@ -17,15 +17,18 @@ resource "aws_security_group" "allow_tls" {
     from_port        = 445
     to_port          = 445
     protocol         = "tcp"
+    self            = true
+    cidr_blocks      = [aws_vpc.mainvpc.cidr_block]
   }
    ingress {
     from_port        = 22
     to_port          = 22
     protocol         ="tcp"
-   }
-    
     self            = true
     cidr_blocks      = [aws_vpc.mainvpc.cidr_block]
+   }
+    
+   
   }
 
   egress {
