@@ -14,13 +14,15 @@ resource "aws_security_group" "allow_tls" {
 
   ingress {
     description      = "TLS from VPC"
-    from_port        = 443
-    to_port          = 443
+    from_port        = 445
+    to_port          = 445
     protocol         = "tcp"
+  }
+   ingress {
     from_port        = 22
     to_port          = 22
-    protocol         ="SSH"
-    
+    protocol         ="tcp"
+   }
     
     self            = true
     cidr_blocks      = [aws_vpc.mainvpc.cidr_block]
