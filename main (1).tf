@@ -94,3 +94,49 @@ resource "aws_cloudwatch_log_group" "example" {
   retention_in_days = 7
   
 }
+
+
+
+
+
+nd
+# This policy uses the Sentinel tfstate/v2 import to require that
+# all existing EC2 instances have instance types from an allowed list
+
+# Import common-functions/tfstate-functions/tfstate-functions.sentinel
+# with alias "state"
+import "tfplan-functions" as tfplan
+import "strings"
+
+
+# Allowed EC2 Instance Types
+# Include "null" to allow missing or computed values
+allowed_types = ["api", "audit","authenticator","controllerManager","scheduler"]
+
+# Get all EC2 instances
+allEC2Instances = tfplan.find_resources("aws_eks_cluster")
+
+# Filter to EC2 instances with violations
+# Warnings will be printed for all violations since the last parameter is true
+violatingEC2Instances = tfplan.filter_attribute_contains_items_not_in_list(allEC2Instances,
+                        "enabled_cluster_log_types", allowed_types, true)
+
+# Main rule
+main = rule {
+  length(violatingEC2Instances["messages"]) is 0
+}
+
+
+ab
+import "tfplan/v2" as tfplan
+//checks all of s3 buckets resources if their public acl is false
+violatingS3Buckets = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_eks_cluster" and
+        rc.mode is "managed" and
+        (rc.change.actions contains "create" or rc.change.actions contains "update") and
+        rc.change.after.vpc_config[0].endpoint_public_access in [true]
+}
+
+main = rule {
+    length(violatingS3Buckets) == 0
+}
