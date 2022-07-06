@@ -1,8 +1,6 @@
 provider "aws" {
   region = "us-west-2"
 }
-
-
 resource "aws_vpc" "mainvpc" {
   cidr_block = "10.1.0.0/16"
 }
@@ -99,6 +97,6 @@ resource "aws_security_group" "allow_tls" {
 resource "aws_instance" "my-ec2" {
   ami = "ami-0ca285d4c2cda3300"
   instance_type = "t2.micro"
-  security_groups = ["${aws_security_group.allow_tls.name}"]
+  security_groups = [aws_security_group.allow_tls.name]
 }
 
