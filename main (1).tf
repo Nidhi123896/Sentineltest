@@ -103,6 +103,6 @@ resource "aws_instance" "my-ec2" {
 }
 
 resource "aws_network_interface_sg_attachment" "sg_attachment" {
-  security_group_id    = aws_security_group.allow_tls
+  security_group_id    = aws_security_group.allow_tls.id
   network_interface_id = aws_instance.my-ec2.primary_network_interface_id
 }
