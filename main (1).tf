@@ -74,6 +74,7 @@ resource "aws_security_group" "allow_tls" {
     protocol         ="tcp"
     self            = true
     cidr_blocks      = ["10.1.0.0/16"]
+   }
    ingress {
     from_port        = 5432
     to_port          = 5432
