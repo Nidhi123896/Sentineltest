@@ -3,6 +3,7 @@ provider "aws" {
 }
 resource "aws_vpc" "vpcsg" {
   cidr_block = "10.0.0.0/16"
+  
 }
 resource "aws_subnet" "mainone" {
   vpc_id     = aws_vpc.vpcsg.id
@@ -46,6 +47,14 @@ resource "aws_instance" "my-ec2" {
     ec2_create = "instance1"
   }
 }
+
+resource "aws_network_interface_sg_attachment" "sg_attachment" {
+  security_group_id    = aws_security_group.allow_tlss.id
+  network_interface_id = aws_instance.my-ec2.primary_network_interface_id
+}
+
+
+
 
 resource "aws_security_group_rule" "rule1" {
   type              = "ingress"
