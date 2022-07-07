@@ -95,7 +95,7 @@ resource "aws_instance" "my-ec2" {
 
 resource "aws_security_group_rule" "example" {
    
-   {
+  ingress {
       cidr_blocks      = ["10.1.0.0/16"]
     security_group_id = "aws_security_group.allow_tls.id"      
     type              = "ingress"
@@ -104,7 +104,7 @@ resource "aws_security_group_rule" "example" {
     protocol         ="tcp"
     self            = true
    }
-  {
+ ingress {
      cidr_blocks      = ["10.1.0.0/16"]
     security_group_id = "aws_security_group.allow_tls.id"   
     type              = "ingress"
