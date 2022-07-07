@@ -40,7 +40,7 @@ resource "aws_instance" "my-ec2" {
   instance_type = "t2.micro"
   #role= "aws_iam_role.EC2S3TF1.name"
   #iam_instance_profile = [aws_iam_instance_profile.EC2S3TF1.name]
-  security_groups = [aws_security_group.allow_tlss.name]
+  security_groups = [aws_security_group.allow_tlss.id]
   
   tags = {
     ec2_create = "instance1"
