@@ -39,20 +39,16 @@ resource "aws_security_group" "allow_tlss" {
 resource "aws_instance" "my-ec2" {
   ami ="ami-087c17d1fe0178315"
   instance_type = "t2.micro"
-  subnet_id = aws_subnet.maintwo.id
+ 
   #role= "aws_iam_role.EC2S3TF1.name"
   #iam_instance_profile = [aws_iam_instance_profile.EC2S3TF1.name]
-  vpc_security_group_ids = ["aws_security_group.allow_tlss.id"]
-  
+  vpc_security_group_ids = ["${aws_security_group.allow_tlss.id}"]
+   subnet_id = aws_subnet.maintwo.id
   tags = {
     ec2_create = "instance1"
   }
 }
 
-/*resource "aws_network_interface_sg_attachment" "sg_attachment" {
-  security_group_id    = aws_security_group.allow_tlss.id
-  network_interface_id = aws_instance.my-ec2.primary_network_interface_id
-}*/
 
 
 
