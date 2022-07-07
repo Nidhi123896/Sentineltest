@@ -4,7 +4,7 @@ provider "aws" {
 resource "aws_vpc" "vpcsg" {
   cidr_block = "10.0.0.0/16"
 }
-resource "aws_subnet" "mainn" {
+resource "aws_subnet" "mainone" {
   vpc_id     = aws_vpc.vpcsg.id
   cidr_block = "10.1.3.0/24"
   
@@ -14,7 +14,7 @@ resource "aws_subnet" "mainn" {
     Name = "subnet1"
   }
 }
-resource "aws_subnet" "maind" {
+resource "aws_subnet" "maintwo" {
   vpc_id     = aws_vpc.vpcsg.id
   cidr_block = "10.1.4.0/24"
  
