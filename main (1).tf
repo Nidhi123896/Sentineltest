@@ -75,13 +75,7 @@ resource "aws_security_group" "allow_tls" {
     self            = true
     cidr_blocks      = ["10.1.0.0/16"]
    }
-   ingress {
-    from_port        = 5432
-    to_port          = 5432
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
+  
     tags = {
     Name = "ingressrule"
   }
@@ -100,5 +94,10 @@ resource "aws_instance" "my-ec2" {
 }
 
 resource "aws_security_group_rule" "example" {
+  from_port        = 5432
+    to_port          = 5432
+    protocol         ="tcp"
+    #self            = true
+    cidr_blocks      = ["10.1.0.0/16"]
   security_group_id = "aws_security_group.allow_tls.id"
 }
