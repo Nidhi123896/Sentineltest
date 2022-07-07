@@ -6,7 +6,7 @@ resource "aws_vpc" "vpcsg" {
 }
 resource "aws_subnet" "mainone" {
   vpc_id     = aws_vpc.vpcsg.id
-  cidr_block = "10.1.3.0/24"
+  cidr_block = "10.0.1.0/24"
   
   availability_zone ="us-east-1c"
  
@@ -16,7 +16,7 @@ resource "aws_subnet" "mainone" {
 }
 resource "aws_subnet" "maintwo" {
   vpc_id     = aws_vpc.vpcsg.id
-  cidr_block = "10.1.4.0/24"
+  cidr_block = "10.0.2.0/24"
  
   availability_zone = "us-east-1d"
   tags = {
