@@ -8,7 +8,7 @@ resource "aws_subnet" "main2" {
   vpc_id     = aws_vpc.vpcsg.id
   cidr_block = "10.1.1.0/24"
   
-  availability_zone = us-east-1a
+  availability_zone ="us-east-1a"
  
   tags = {
     Name = "subnet1"
@@ -18,7 +18,7 @@ resource "aws_subnet" "main3" {
   vpc_id     = aws_vpc.vpcsg.id
   cidr_block = "10.1.2.0/24"
  
-  availability_zone = us-east-1b
+  availability_zone = "us-east-1b"
   tags = {
     Name = "subnet2"
   }
