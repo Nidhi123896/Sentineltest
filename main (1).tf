@@ -6,7 +6,7 @@ resource "aws_default_vpc" "main" {
     Name = "main"
   }
 }
-resource "aws_security_group" "allow_tls" {
+resource "aws_security_group" "allow_tlss" {
   name        = "allow"
   description = "Allow TLS inbound traffic"
  vpc_id      = aws_default_vpc.main.id
@@ -33,7 +33,7 @@ resource "aws_security_group_rule" "rule1" {
   to_port           = 1434
   protocol          = "udp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule2" {
   type              = "ingress"
@@ -42,7 +42,7 @@ resource "aws_security_group_rule" "rule2" {
   to_port           = 5432
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule3" {
   type              = "ingress"
@@ -51,7 +51,7 @@ resource "aws_security_group_rule" "rule3" {
   to_port           = 3306
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule4" {
   type              = "ingress"
@@ -60,7 +60,7 @@ resource "aws_security_group_rule" "rule4" {
   to_port           = 4333
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule5" {
   type              = "ingress"
@@ -69,7 +69,7 @@ resource "aws_security_group_rule" "rule5" {
   to_port           = 1433
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule6" {
   type              = "ingress"
@@ -78,7 +78,7 @@ resource "aws_security_group_rule" "rule6" {
   to_port           = 5500
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule7" {
   type              = "ingress"
@@ -87,7 +87,7 @@ resource "aws_security_group_rule" "rule7" {
   to_port           = 445
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule8" {
   type              = "ingress"
@@ -96,7 +96,7 @@ resource "aws_security_group_rule" "rule8" {
   to_port           = 3389
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 resource "aws_security_group_rule" "rule9" {
   type              = "ingress"
@@ -105,7 +105,7 @@ resource "aws_security_group_rule" "rule9" {
   to_port           = 135
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 
 resource "aws_security_group_rule" "rule10" {
@@ -115,7 +115,7 @@ resource "aws_security_group_rule" "rule10" {
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 
 resource "aws_security_group_rule" "rule11" {
@@ -125,7 +125,7 @@ resource "aws_security_group_rule" "rule11" {
   to_port           = 23
   protocol          = "tcp"
   cidr_blocks       = ["10.1.0.0/16"]
-  security_group_id = aws_security_group.allow_tls.id
+  security_group_id = aws_security_group.allow_tlss.id
 }
 
 
