@@ -29,7 +29,6 @@ resource "aws_instance" "my-ec2" {
 
 resource "aws_security_group_rule" "rule1" {
   type              = "ingress"
-  self              = true
   from_port         = 1434
   to_port           = 1434
   protocol          = "udp"
@@ -38,7 +37,7 @@ resource "aws_security_group_rule" "rule1" {
 }
 resource "aws_security_group_rule" "rule2" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 5432
   to_port           = 5432
   protocol          = "tcp"
@@ -47,7 +46,7 @@ resource "aws_security_group_rule" "rule2" {
 }
 resource "aws_security_group_rule" "rule3" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
@@ -56,7 +55,7 @@ resource "aws_security_group_rule" "rule3" {
 }
 resource "aws_security_group_rule" "rule4" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 4333
   to_port           = 4333
   protocol          = "tcp"
@@ -65,7 +64,7 @@ resource "aws_security_group_rule" "rule4" {
 }
 resource "aws_security_group_rule" "rule5" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 1433
   to_port           = 1433
   protocol          = "tcp"
@@ -74,7 +73,7 @@ resource "aws_security_group_rule" "rule5" {
 }
 resource "aws_security_group_rule" "rule6" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 5500
   to_port           = 5500
   protocol          = "tcp"
@@ -83,7 +82,7 @@ resource "aws_security_group_rule" "rule6" {
 }
 resource "aws_security_group_rule" "rule7" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 445
   to_port           = 445
   protocol          = "tcp"
@@ -92,7 +91,7 @@ resource "aws_security_group_rule" "rule7" {
 }
 resource "aws_security_group_rule" "rule8" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 3389
   to_port           = 3389
   protocol          = "tcp"
@@ -101,7 +100,7 @@ resource "aws_security_group_rule" "rule8" {
 }
 resource "aws_security_group_rule" "rule9" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 135
   to_port           = 135
   protocol          = "tcp"
@@ -111,7 +110,7 @@ resource "aws_security_group_rule" "rule9" {
 
 resource "aws_security_group_rule" "rule10" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
@@ -121,7 +120,7 @@ resource "aws_security_group_rule" "rule10" {
 
 resource "aws_security_group_rule" "rule11" {
   type              = "ingress"
-  self              = true
+  #self              = true
   from_port         = 23
   to_port           = 23
   protocol          = "tcp"
