@@ -94,6 +94,7 @@ resource "aws_instance" "my-ec2" {
 }
 
 resource "aws_security_group_rule" "example" {
+  type              = "ingress"
   from_port        = 5432
     to_port          = 5432
     protocol         ="tcp"
