@@ -30,7 +30,7 @@ resource "aws_security_group" "allow_tlss" {
  vpc_id      = aws_vpc.vpcsg.id
   
   tags = {
-    Name = "ingressrule"
+    Name = "ingress"
   }
 }
 
