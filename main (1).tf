@@ -2,30 +2,105 @@ provider "aws" {
   region = "us-east-1"
 }
 
-variable "sg_ingress_rules" {
-    type = list(object({
-      from_port   = number
-      to_port     = number
-      protocol    = string
-      cidr_block  = string
-      description = string
-    }))
-    default     = [
-        {
-          from_port   = 22
-          to_port     = 22
-          protocol    = "tcp"
-          cidr_block  = "10.1.0.0/16"
-          description = "test"
-        },
-        {
-          from_port   = 23
-          to_port     = 23
-          protocol    = "tcp"
-          cidr_block  = "10.1.0.0/16"
-          description = "test"
-        },
-    ]
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+ 
+resource "aws_iam_role" "example" {
+  name = "eks-cluster-example"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.example.name
+}
+
+resource "aws_vpc" "mainvpc" {
+ 
+  cidr_block = "10.1.0.0/16"
+}
+resource "aws_subnet" "main" {
+  vpc_id     = aws_vpc.mainvpc.id
+  cidr_block = "10.1.1.0/24"
+  
+  availability_zone = data.aws_availability_zones.available.names[0]
+ 
+  tags = {
+    Name = "subnet1"
+  }
+}
+resource "aws_subnet" "main1" {
+  vpc_id     = aws_vpc.mainvpc.id
+  cidr_block = "10.1.2.0/24"
+ 
+  availability_zone = data.aws_availability_zones.available.names[1]
+  tags = {
+    Name = "subnet2"
+  }
+}
+
+
+
+resource "aws_cloudwatch_log_group" "nidhi" {
+  name = "loggp"
+
+  tags = {
+    Environment = "production"
+    Application = "serviceA"
+  }
+}
+variable "cluster_name" {
+  default = "example"
+  type    = string
+}
+
+resource "aws_eks_cluster" "example" {
+  role_arn = aws_iam_role.example.arn
+
+  vpc_config {
+    subnet_ids = [aws_subnet.main.id,aws_subnet.main1.id]
+  }
+  
+  depends_on = [
+    aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy,
+    aws_cloudwatch_log_group.example,
+  ]
+
+
+  enabled_cluster_log_types = ["api", "audit","authenticator","controllerManager","scheduler"]
+  name                      = var.cluster_name
+
+  
+}
+
+resource "aws_cloudwatch_log_group" "example" {
+ 
+  name              = "/aws/eks/${var.cluster_name}/cluster"
+  retention_in_days = 7
+  
+}
+
+
+
+
+
+provider "aws" {
+  region = "us-east-1"
 }
 resource "aws_default_vpc" "main" {
   tags = {
@@ -36,7 +111,7 @@ resource "aws_security_group" "allow_tls" {
   name        = "allow"
   description = "Allow TLS inbound traffic"
  vpc_id      = aws_default_vpc.main.id
-tags = {
+  tags = {
     Name = "ingressrule"
   }
 }
@@ -53,16 +128,107 @@ resource "aws_instance" "my-ec2" {
   }
 }
 
-
- resource "aws_security_group_rule" "ingress_rules" {
-  count = length(var.sg_ingress_rules)
-
+resource "aws_security_group_rule" "rule1" {
   type              = "ingress"
   self              = true
-  from_port         = var.ingress_rules[count.index].from_port
-  to_port           = var.ingress_rules[count.index].to_port
-  protocol          = var.ingress_rules[count.index].protocol
-  cidr_blocks       = [var.ingress_rules[count.index].cidr_block]
-  description       = var.ingress_rules[count.index].description
+  from_port         = 1434
+  to_port           = 1434
+  protocol          = "udp"
+  cidr_blocks       = ["10.1.0.0/16"]
   security_group_id = aws_security_group.allow_tls.id
 }
+resource "aws_security_group_rule" "rule2" {
+  type              = "ingress"
+  self              = true
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule3" {
+  type              = "ingress"
+  self              = true
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule4" {
+  type              = "ingress"
+  self              = true
+  from_port         = 4333
+  to_port           = 4333
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule5" {
+  type              = "ingress"
+  self              = true
+  from_port         = 1433
+  to_port           = 1433
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule6" {
+  type              = "ingress"
+  self              = true
+  from_port         = 5500
+  to_port           = 5500
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule7" {
+  type              = "ingress"
+  self              = true
+  from_port         = 445
+  to_port           = 445
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule8" {
+  type              = "ingress"
+  self              = true
+  from_port         = 3389
+  to_port           = 3389
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+resource "aws_security_group_rule" "rule9" {
+  type              = "ingress"
+  self              = true
+  from_port         = 135
+  to_port           = 135
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+
+resource "aws_security_group_rule" "rule10" {
+  type              = "ingress"
+  self              = true
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+
+resource "aws_security_group_rule" "rule11" {
+  type              = "ingress"
+  self              = true
+  from_port         = 23
+  to_port           = 23
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.0.0/16"]
+  security_group_id = aws_security_group.allow_tls.id
+}
+
+
+
