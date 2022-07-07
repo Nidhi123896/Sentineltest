@@ -1,6 +1,32 @@
 provider "aws" {
   region = "us-east-1"
 }
+
+variable "sg_ingress_rules" {
+    type = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_block  = string
+      description = string
+    }))
+    default     = [
+        {
+          from_port   = 22
+          to_port     = 22
+          protocol    = "tcp"
+          cidr_block  = "10.1.0.0/16"
+          description = "test"
+        },
+        {
+          from_port   = 23
+          to_port     = 23
+          protocol    = "tcp"
+          cidr_block  = "10.1.0.0/16"
+          description = "test"
+        },
+    ]
+}
 resource "aws_default_vpc" "main" {
   tags = {
     Name = "main"
@@ -10,73 +36,7 @@ resource "aws_security_group" "allow_tls" {
   name        = "allow"
   description = "Allow TLS inbound traffic"
  vpc_id      = aws_default_vpc.main.id
-
-  ingress {
-    description      = "TLS from VPC"
-    from_port        = 23
-    to_port          = 23
-    protocol         = "tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-  }
-   ingress {
-    from_port        = 22
-    to_port          = 22
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 135
-    to_port          = 135
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 445
-    to_port          = 445
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 3389
-    to_port          = 3389
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 5500
-    to_port          = 5500
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 1433
-    to_port          = 1433
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 4333
-    to_port          = 4333
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-   ingress {
-    from_port        = 3306
-    to_port          = 3306
-    protocol         ="tcp"
-    self            = true
-    cidr_blocks      = ["10.1.0.0/16"]
-   }
-  
-    tags = {
+tags = {
     Name = "ingressrule"
   }
 }
@@ -93,24 +53,16 @@ resource "aws_instance" "my-ec2" {
   }
 }
 
-resource "aws_security_group_rule" "example" {
-   
-  ingress {
-      cidr_blocks      = ["10.1.0.0/16"]
-    security_group_id = "aws_security_group.allow_tls.id"      
-    type              = "ingress"
-    from_port        = 5432
-    to_port          = 5432
-    protocol         ="tcp"
-    self            = true
-   }
- ingress {
-     cidr_blocks      = ["10.1.0.0/16"]
-    security_group_id = "aws_security_group.allow_tls.id"   
-    type              = "ingress"
-    from_port        = 3306
-    to_port          = 3306
-    protocol         ="tcp"
-    self            = true
-  }
+
+ resource "aws_security_group_rule" "ingress_rules" {
+  count = length(var.ingress_rules)
+
+  type              = "ingress"
+  self              = true
+  from_port         = var.ingress_rules[count.index].from_port
+  to_port           = var.ingress_rules[count.index].to_port
+  protocol          = var.ingress_rules[count.index].protocol
+  cidr_blocks       = [var.ingress_rules[count.index].cidr_block]
+  description       = var.ingress_rules[count.index].description
+  security_group_id = aws_security_group.allow_tls.id
 }
