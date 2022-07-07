@@ -1,21 +1,34 @@
 provider "aws" {
   region = "us-east-1"
 }
-resource "aws_default_vpc" "main" {
+resource "aws_vpc" "vpcsg" {
+  cidr_block = "10.0.0.0/16"
+}
+resource "aws_subnet" "main2" {
+  vpc_id     = aws_vpc.vpcsg.id
+  cidr_block = "10.1.1.0/24"
+  
+  availability_zone = data.aws_availability_zones.available.names[0]
+ 
   tags = {
-    Name = "main"
+    Name = "subnet1"
   }
 }
+resource "aws_subnet" "main3" {
+  vpc_id     = aws_vpc.vpcsg.id
+  cidr_block = "10.1.2.0/24"
+ 
+  availability_zone = data.aws_availability_zones.available.names[1]
+  tags = {
+    Name = "subnet2"
+  }
+}
+
 resource "aws_security_group" "allow_tlss" {
   name        = "allow"
   description = "Allow TLS inbound traffic"
- vpc_id      = aws_default_vpc.main.id
-  ingress {
-    description      = "TLS from VPC"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-  }
+ vpc_id      = aws_default_vpc.vpcsg.id
+  
   tags = {
     Name = "ingressrule"
   }
@@ -28,6 +41,7 @@ resource "aws_instance" "my-ec2" {
   #role= "aws_iam_role.EC2S3TF1.name"
   #iam_instance_profile = [aws_iam_instance_profile.EC2S3TF1.name]
   security_groups = [aws_security_group.allow_tlss.name]
+  
   tags = {
     ec2_create = "instance1"
   }
