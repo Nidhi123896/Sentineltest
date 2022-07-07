@@ -55,7 +55,7 @@ resource "aws_instance" "my-ec2" {
 
 
  resource "aws_security_group_rule" "ingress_rules" {
-  count = length(var.ingress_rules)
+  count = length(var.sg_ingress_rules)
 
   type              = "ingress"
   self              = true
