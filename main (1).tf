@@ -4,21 +4,21 @@ provider "aws" {
 resource "aws_vpc" "vpcsg" {
   cidr_block = "10.0.0.0/16"
 }
-resource "aws_subnet" "main2" {
+resource "aws_subnet" "mainn" {
   vpc_id     = aws_vpc.vpcsg.id
-  cidr_block = "10.1.1.0/24"
+  cidr_block = "10.1.3.0/24"
   
-  availability_zone ="us-east-1a"
+  availability_zone ="us-east-1c"
  
   tags = {
     Name = "subnet1"
   }
 }
-resource "aws_subnet" "main3" {
+resource "aws_subnet" "maind" {
   vpc_id     = aws_vpc.vpcsg.id
-  cidr_block = "10.1.2.0/24"
+  cidr_block = "10.1.4.0/24"
  
-  availability_zone = "us-east-1b"
+  availability_zone = "us-east-1d"
   tags = {
     Name = "subnet2"
   }
