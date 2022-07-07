@@ -27,7 +27,7 @@ resource "aws_subnet" "main3" {
 resource "aws_security_group" "allow_tlss" {
   name        = "allow"
   description = "Allow TLS inbound traffic"
- vpc_id      = aws_default_vpc.vpcsg.id
+ vpc_id      = aws_vpc.vpcsg.id
   
   tags = {
     Name = "ingressrule"
