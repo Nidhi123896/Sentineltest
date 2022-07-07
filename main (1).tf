@@ -10,6 +10,12 @@ resource "aws_security_group" "allow_tlss" {
   name        = "allow"
   description = "Allow TLS inbound traffic"
  vpc_id      = aws_default_vpc.main.id
+  ingress {
+    description      = "TLS from VPC"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+  }
   tags = {
     Name = "ingressrule"
   }
