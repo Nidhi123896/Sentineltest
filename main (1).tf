@@ -10,4 +10,5 @@ resource "aws_kms_key" "my_kms_key" {
   tags = {
     Name = "my_kms_key"
   }
+  
 }
