@@ -48,7 +48,7 @@ resource "aws_iam_group" "group" {
 
 resource "aws_iam_group_policy" "group_pol" {
   name = "test"
-  user = aws_iam_group.group.name
+  group = aws_iam_group.group.name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
