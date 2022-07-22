@@ -27,19 +27,24 @@ resource "aws_iam_user" "user_name" {
 
 resource "aws_iam_role" "role" {
   name = "managedpolicy"
+}
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
+resource "aws_iam_role_policy" "test_policy" {
+  name = "test_policy"
+  role = aws_iam_role.role.name
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+       {
       "Action":  "iam:*",
       "Effect": "Allow",
       "Resource": "*"
     }
-  ]
-}
-EOF
+    ]
+  })
 }
 
 resource "aws_iam_group" "group" {
