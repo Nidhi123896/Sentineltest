@@ -27,6 +27,18 @@ resource "aws_iam_user" "user_name" {
 
 resource "aws_iam_role" "role" {
   name = "managedpolicy"
+  
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+      "Action":  "iam:*",
+      "Effect": "Allow",
+      "Resource": "*"
+    
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy" "test_policy" {
