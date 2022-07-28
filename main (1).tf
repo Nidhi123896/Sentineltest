@@ -1,104 +1,35 @@
 provider "aws" {
   region = "us-east-1"
 }
-resource "aws_iam_user_policy" "lb_ro" {
-  name = "test"
-  user = aws_iam_user.user_name.name
+resource "aws_sns_topic" "test" {
+  name = "my-topic-with-policy"
+}
 
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-     {
-      "Action":  "iam:*",
-      "Effect": "Allow",
-      "Resource": "*"
-    }
+resource "aws_sns_topic_policy" "default" {
+  arn = aws_sns_topic.test.arn
+
+  policy = data.aws_iam_policy_document.sns_topic_policy.json
+}
+
+data "aws_iam_policy_document" "sns_topic_policy" {
+  policy_id = "__default_policy_ID"
+
+  statement {
+    actions = [
+      "SNS:Publish",
     ]
-  })
-}
 
-resource "aws_iam_user" "user_name" {
-  name = "testuser"
-  path = "/"
-}
+    effect = "Allow"
 
-
-resource "aws_iam_role" "role" {
-  name = "managedpolicy"
-  
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-      "Action":  "iam:*",
-      "Effect": "Allow",
-      "Resource": "*"
-    
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "test_policy" {
-  name = "test_policy"
-  role = aws_iam_role.role.name
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-       {
-      "Action":  "iam:*",
-      "Effect": "Allow",
-      "Resource": "*"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
     }
+
+    resources = [
+      aws_sns_topic.test.arn,
     ]
-  })
+
+    sid = "__default_statement_ID"
+  }
 }
-
-resource "aws_iam_group" "group" {
-  name = "group_policy"
-}
-
-resource "aws_iam_group_policy" "group_pol" {
-  name = "test"
-  group = aws_iam_group.group.name
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-     {
-      "Action":  "iam:*",
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-    ]
-  })
-}
-
-
-
-resource "aws_iam_policy" "policy" {
-  name        = "root"
-  description = "A test policy"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action":  "iam:*",
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
-
-
